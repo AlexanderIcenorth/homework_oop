@@ -94,6 +94,11 @@ stud2.finished_courses = ['Хромоногие пляски', 'Метание �
 stud2.courses_in_progress = ['Прыжки в сторону', 'Гудение пчелой']
 stud2.grades = {'Прыжки в сторону': [3, 5, 10, 6, 8, 9],'Гудение пчелой': [8, 10, 10, 9, 10, 9]}
 
+stud3 = Student('Кирюха', 'Пупков', 'муж')
+stud3.finished_courses = ['Гудение пчелой']
+stud3.courses_in_progress = ['Хромоногие пляски', 'Метание шакалов', 'Прыжки в сторону']
+stud3.grades = {'Хромоногие пляски' : [3, 2, 3, 4], 'Метание шакалов' : [1, 1, 1, 0], 'Прыжки в сторону' : [3, 5, 1, 2]}
+
 lect1 = Lecturer('Сбегастий', 'Запахложаренков')
 lect1.courses_attached = ['Прыжки в сторону', 'Хромоногие пляски']
 lect1.grades = {'Прыжки в сторону': [9, 10, 10, 10, 9, 10], 'Хромоногие пляски': [8, 9, 10, 7, 10, 10]}
@@ -111,8 +116,39 @@ rev2.courses_attached = ['Прыжки в сторону', 'Метание ша�
 print(rev1)
 print(lect2)
 print(lect1 < lect2)
-print(stud1)
+print(stud3)
 print(stud1 < stud2)
 
+students_list1 = [stud1, stud2, stud3]
+students_list2 = []
 
-def average_homevork_grade()
+def average_homevork_grade(list, course):
+    '''
+    Подсчёт средней оценки среди всех студентов, изучающих курс.
+    '''
+    all_studs_result = 0
+    all_studs_count = 0
+    for student in list:
+        if course in student.grades.keys():
+            grades_one_stud_summ = 0
+            grades_one_stud_count = 0
+            for course_name, grades_list in student.grades.items():
+                if course_name == course:
+                    for grade in grades_list:
+                        grades_one_stud_summ += grade
+                        grades_one_stud_count += 1
+            result_one_stud = grades_one_stud_summ / grades_one_stud_count
+            all_studs_count += 1
+            all_studs_result = (all_studs_result + result_one_stud) / all_studs_count
+    all_studs_result = round(all_studs_result, 2)
+    if all_studs_result > 0:
+        return all_studs_result
+    else:
+         return f'В этом списке студентов нет изучающих {course}'
+
+print(average_homevork_grade(students_list1, 'Хромоногие пляски'))
+
+def average_review_grade(list, course):
+    '''
+    Подсчёт средней оценки среди всех лекторов, преподающих курс.
+    '''
