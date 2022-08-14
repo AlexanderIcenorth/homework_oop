@@ -105,7 +105,7 @@ lect1.grades = {'Прыжки в сторону': [9, 10, 10, 10, 9, 10], 'Хр�
 
 lect2 = Lecturer('Запопий', 'Внезапноукусов')
 lect2.courses_attached = ['Гудение пчелой', 'Метание шакалов']
-lect2.grades = {'Гудение пчелой' : [7,10, 6, 8, 9, 9], 'Метание шакалов':[10,10,10,10,10,10]}
+lect2.grades = {'Гудение пчелой' : [7,10, 6, 8, 9, 9], 'Метание шакалов':[10,10,10,8,10,9]}
 
 rev1 = Reviewer('Анонимия', 'Инкогнитова')
 rev1.courses_attached = ['Гудение пчелой', 'Хромоногие пляски']
@@ -117,17 +117,19 @@ print(rev1)
 print(lect2)
 print(lect1 < lect2)
 print(stud3)
-print(stud1 < stud2)
+print(stud1 > stud3)
 
 students_list1 = [stud1, stud2, stud3]
 students_list2 = []
+lecturers_list = [lect1, lect2]
+
 
 def average_homevork_grade(list, course):
     '''
     Подсчёт средней оценки среди всех студентов, изучающих курс.
     '''
     all_studs_result = 0
-    all_studs_count = 0
+    studs_count = 0
     for student in list:
         if course in student.grades.keys():
             grades_one_stud_summ = 0
@@ -138,17 +140,40 @@ def average_homevork_grade(list, course):
                         grades_one_stud_summ += grade
                         grades_one_stud_count += 1
             result_one_stud = grades_one_stud_summ / grades_one_stud_count
-            all_studs_count += 1
-            all_studs_result = (all_studs_result + result_one_stud) / all_studs_count
+            studs_count += 1
+            all_studs_result = (all_studs_result + result_one_stud) / studs_count
     all_studs_result = round(all_studs_result, 2)
     if all_studs_result > 0:
-        return all_studs_result
+        return f'Cредняя оценка за домашние задания у студентов из списка по предмету {course}: {all_studs_result}'
     else:
          return f'В этом списке студентов нет изучающих {course}'
 
-print(average_homevork_grade(students_list1, 'Хромоногие пляски'))
+
 
 def average_review_grade(list, course):
     '''
     Подсчёт средней оценки среди всех лекторов, преподающих курс.
     '''
+    all_lecturers_result = 0
+    lecturers_count = 0
+    for lector in list:
+        if course in lector.grades.keys():
+            grades_one_lect_summ = 0
+            grades_one_lect_count = 0
+            for course_name, grades_list in lector.grades.items():
+                if course_name == course:
+                    for grade in grades_list:
+                        grades_one_lect_summ += grade
+                        grades_one_lect_count += 1
+            result_for_one = grades_one_lect_summ / grades_one_lect_count
+            lecturers_count += 1
+            all_lecturers_result = (all_lecturers_result + result_for_one) / lecturers_count
+    all_lecturers_result = round(all_lecturers_result, 2)
+    if all_lecturers_result >0:
+        return f'Cредняя оценка за лекции у лекторов из списка за по предмету {course}: {all_lecturers_result}'
+    else:
+        return f'В этом списке лекторов нет преподающих {course}'
+
+
+print(average_homevork_grade(students_list1, 'Хромоногие пляски'))
+print(average_review_grade(lecturers_list, 'Метание шакалов'))
